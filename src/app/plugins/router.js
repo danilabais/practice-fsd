@@ -1,0 +1,11 @@
+import { createWebHistory, createRouter } from "vue-router";
+
+import {routes} from '@/pages/router'
+
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export  {router}

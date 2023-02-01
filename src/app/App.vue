@@ -1,5 +1,7 @@
 <template>
   <v-app>
-    <v-main> lol </v-main>
+    <v-main>
+      <router-view />
+    </v-main>
   </v-app>
 </template>
