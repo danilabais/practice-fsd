@@ -13,3 +13,4 @@ export const countryRules = [(v) => !!v || "Страна обязателена"
 export const cityRules = [(v) => !!v || "Город обязателен"];
 export const offerTypeRules = [(v) => !!v || "Тип договора обязателен"];
 export const jobRules = [(v) => !!v || "Должность обязателена"];
+export const sexRules = [(v) => !!v || "Пол обязателен"];

@@ -63,6 +63,16 @@ export const useDatabaseStore = defineStore('database', () => {
         code: 'taj'
       },
     ]
+    const sex =[
+      {
+        title: 'Мужчина',
+        id: 1,
+      },
+      {
+        title: 'Девушка',
+        id: 2,
+      },
+    ]
     const contractType = [
       {
         id: 1,
@@ -82,8 +92,21 @@ export const useDatabaseStore = defineStore('database', () => {
         id: 4,
         title: 'Кандидат'
       },
-
+    ]
+    const jobs = [
+      {
+        id: 1,
+        title: 'Верстальщик'
+      },
+      {
+        id: 2,
+        title: 'Дизайнер'
+      },
+      {
+        id: 3,
+        title: 'Президент'
+      },
     ]
   
-    return { staffTag ,cities , countries , contractType}
+    return { staffTag ,cities , countries , contractType, sex, jobs}
   })

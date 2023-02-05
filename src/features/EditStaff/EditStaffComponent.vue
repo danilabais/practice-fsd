@@ -1,16 +1,9 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          @click="dialog = true"
-          dark
-          block
-          color="#00B6ED"
-          v-bind="attrs"
-          v-on="on"
-        >
-          Добавить сотрудника
+      <template v-slot:activator>
+        <v-btn @click="dialog = true" small class="ml-auto" dark>
+          <v-icon dark> mdi-pencil </v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -19,7 +12,10 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <StaffFormComponent ref="staffFromREF" />
+            <StaffFormComponent
+              :initialState="initialState"
+              ref="staffFromREF"
+            />
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
@@ -38,13 +34,20 @@
 <script setup>
 import { ref } from "vue";
 import { StaffFormComponent } from "@/entities/StaffForm";
+
+defineProps({
+  initialState: {
+    type: Object,
+    required: false,
+  },
+});
 const dialog = ref(false);
 const staffFromREF = ref();
-const emits = defineEmits(["addStaff"]);
+const emits = defineEmits(["editStaff"]);
 const submit = async () => {
   const response = await staffFromREF.value.validateAndSubmit();
   if (response) {
-    emits("addStaff", response);
+    emits("editStaff", response);
     dialog.value = false;
   }
 };

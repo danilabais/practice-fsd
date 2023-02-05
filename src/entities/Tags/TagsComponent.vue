@@ -5,14 +5,12 @@
     rounded
     :variant="tag.id !== modelValue ? 'outlined' : 'flat'"
     class="mr-2"
-    @click="emit('update:modelValue', tag.id)"
+    @click="$emit('update:modelValue', tag.id)"
     >{{ tag.status }}</v-btn
   >
 </template>
 
 <script setup>
-const emit = defineEmits(["update:modelValue"]);
-
 defineProps({
   options: {
     type: Array,

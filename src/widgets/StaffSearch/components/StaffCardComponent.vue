@@ -3,11 +3,12 @@
     <v-row>
       <v-card-title class="text-h5 text-name">{{ staff.name }} </v-card-title>
       <v-chip class="ma-2" label> ИНН {{ staff.inn }} </v-chip>
-      <v-chip class="ma-2" color="green" label>{{ statusTitle }}</v-chip>
-      <v-card-text>{{ staff.job }}</v-card-text>
+      <v-chip class="ma-2" variant="flat" color="green" label>{{
+        contract
+      }}</v-chip>
+      <v-card-text>{{ job }}</v-card-text>
     </v-row>
-    <!-- Почему то justify start не работает, придется свой стиль тащить (мб vuutify 3 not stable) -->
-    <v-row justify="start" class="justify-start">
+    <v-row class="mb-4">
       <v-card-text class="text"
         ><img
           :src="`src/shared/assets/img/flags/${country.code}.svg`"
@@ -19,14 +20,17 @@
       <v-divider vertical></v-divider>
       <v-card-text class="text">г. {{ cityTitle }}</v-card-text>
       <v-divider vertical></v-divider>
-      <v-card-text class="text"
-        >Дата рождения: {{ staff.bdate.replaceAll("/", ".") }}</v-card-text
+      <v-card-text class="text">
+        Дата рождения: {{ staff.bdate.replaceAll("/", ".") }}</v-card-text
       >
       <v-divider vertical></v-divider>
       <v-card-text class="text">Возраст: {{ age }}</v-card-text>
+      <v-divider vertical></v-divider>
+      <v-card-text class="text"> Пол: {{ sexTitle }}</v-card-text>
     </v-row>
-    <v-row>
-      <v-chip class="ma-2" label>Истекают</v-chip>
+    <v-row class="align-center mx-1 mb-1">
+      <v-chip variant="flat" :color="tag.color">{{ tag.title }}</v-chip>
+      <slot />
     </v-row>
   </v-card>
 </template>
@@ -36,9 +40,9 @@ import { computed } from "vue";
 import { useDatabaseStore } from "@/shared/store/database";
 import { _calculateAge } from "@/shared/helpers/_calculateAge.js";
 const database = useDatabaseStore();
-const { staffTag, cities, contractType, countries } = database;
-const statusTitle = computed(
-  () => contractType.find((el) => el.id === props.staff.status).title
+const { staffTag, cities, contractType, countries, sex, jobs } = database;
+const contract = computed(
+  () => contractType.find((el) => el.id === props.staff.contractType).title
 );
 const cityTitle = computed(
   () => cities.find((el) => el.id === props.staff.city).title
@@ -47,8 +51,19 @@ const country = computed(() => {
   return countries.find((el) => el.id === props.staff.country);
 });
 
+const tag = computed(() => {
+  return staffTag.find((el) => el.id === props.staff.status);
+});
+
 const age = computed(() => {
   return _calculateAge(props.staff.bdate);
+});
+
+const sexTitle = computed(() => {
+  return sex.find((el) => el.id === props.staff.sex).title;
+});
+const job = computed(() => {
+  return jobs.find((el) => el.id === props.staff.job).title;
 });
 
 const props = defineProps({
@@ -87,6 +102,10 @@ const props = defineProps({
       required: true,
     },
     contractType: {
+      type: Number,
+      required: true,
+    },
+    sex: {
       type: Number,
       required: true,
     },

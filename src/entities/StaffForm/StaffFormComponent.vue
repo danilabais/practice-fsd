@@ -18,15 +18,7 @@
       class="mb-2"
       filled
     ></v-text-field>
-    <v-text-field
-      label="Должность*"
-      :rules="rules.jobRules"
-      maxlength="30"
-      v-model="staffForm.job"
-      placeholder="Верстальщик"
-      class="mb-2"
-      filled
-    ></v-text-field>
+
     <v-text-field
       label="Адрес*"
       maxlength="40"
@@ -46,8 +38,23 @@
       filled
     ></v-text-field>
     <v-select
+      :items="database.sex"
+      :rules="rules.sexRules"
+      class="mb-2"
+      v-model="staffForm.sex"
+      item-value="id"
+      label="Пол*"
+    />
+    <v-select
+      :items="database.jobs"
+      :rules="rules.jobRules"
+      class="mb-2"
+      v-model="staffForm.job"
+      item-value="id"
+      label="Должность*"
+    />
+    <v-select
       :items="staffTagPrepared"
-      item-text="color"
       :rules="rules.staffTagRules"
       class="mb-2"
       v-model="staffForm.status"
@@ -87,16 +94,26 @@ import { ref, computed } from "vue";
 import { useDatabaseStore } from "@/shared/store/database";
 import * as rules from "./constants";
 
+const props = defineProps({
+  initialState: {
+    type: Object,
+    required: false,
+  },
+});
+
 const staffForm = ref({
   name: "",
   bdate: "",
   inn: "",
   adress: "",
-  job: "",
+  job: null,
   status: null,
   country: null,
   city: null,
   contractType: null,
+  sex: null,
+  id: null,
+  ...props.initialState,
 });
 
 const form = ref();
@@ -107,7 +124,8 @@ const staffTagPrepared = computed(() => {
 const validateAndSubmit = async () => {
   const isValide = (await form.value.validate()).valid;
   if (!isValide) return null;
-  return { ...staffForm.value, id: Date.now() };
+  if (!staffForm.value.id) staffForm.value.id = Date.now();
+  return { ...staffForm.value };
 };
 defineExpose({ validateAndSubmit });
 </script>
