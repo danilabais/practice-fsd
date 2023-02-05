@@ -85,7 +85,6 @@
       class="mb-2"
       label="Тип договора*"
     />
-    {{ staffForm }}
   </v-form>
 </template>
 

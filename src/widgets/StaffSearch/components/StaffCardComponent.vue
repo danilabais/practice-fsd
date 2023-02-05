@@ -11,7 +11,7 @@
     <v-row class="mb-4">
       <v-card-text class="text"
         ><img
-          :src="`src/shared/assets/img/flags/${country.code}.svg`"
+          :src="getImageUrl(country.code)"
           :alt="country.title"
           class="mr-2"
         />
@@ -39,6 +39,12 @@
 import { computed } from "vue";
 import { useDatabaseStore } from "@/shared/store/database";
 import { _calculateAge } from "@/shared/helpers/_calculateAge.js";
+function getImageUrl(code) {
+  return new URL(
+    `../../../shared/assets/img/flags/${code}.svg`,
+    import.meta.url
+  ).href;
+}
 const database = useDatabaseStore();
 const { staffTag, cities, contractType, countries, sex, jobs } = database;
 const contract = computed(
